@@ -1,18 +1,14 @@
 defmodule ExampleApp do
-  @moduledoc """
-  Documentation for ExampleApp.
-  """
+  use Application
 
-  @doc """
-  Hello world.
+  def start(_type, _args) do
+    import Supervisor.Spec
 
-  ## Examples
+    children = [
+      supervisor(ExampleApp.Repo, [])
+    ]
 
-      iex> ExampleApp.hello()
-      :world
-
-  """
-  def hello do
-    :world
+    opts = [strawtegy: :one_for_one, name: ExampleApp.Supervisor]
+    Supervisor.start_link(children, opts)
   end
 end
